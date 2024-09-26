@@ -16,11 +16,15 @@ class Pet(models.Model):
 
     slug = models.SlugField(
         unique=True,
-        null=False,
+        null=True,
         blank=True,
+        editable=False,
     )
 
     def save(self, *args, **kwargs):
+        # This is needed because id is needed for the slug
+        super().save(*args, **kwargs)
+
         if not self.slug:
             self.slug = slugify(f'{self.name}-{self.id}')
 
