@@ -8,6 +8,7 @@ class PostBaseForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = "__all__"
+
         error_messages = {
             'title': {
                 'required': 'Please enter a title for your post.',
@@ -25,7 +26,7 @@ class PostEditForm(PostBaseForm):
     pass
 
 class PostDeleteForm(PostBaseForm, DisableFieldsMixin):
-    pass
+    disabled_fields = ("__all__",)
 
 class SearchForm(forms.Form):
     query = forms.CharField(
