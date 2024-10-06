@@ -20,7 +20,6 @@ def dashboard(request):
             query = form.cleaned_data['query']
             posts = posts.filter(title__icontains=query)
 
-
     context = {
         "posts": posts,
         "form": form,

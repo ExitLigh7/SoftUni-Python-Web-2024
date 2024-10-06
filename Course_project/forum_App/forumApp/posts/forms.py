@@ -1,5 +1,6 @@
 from django import forms
-from forumApp.posts.choices import LanguageChoice
+
+from forumApp.posts.mixins import DisableFieldsMixin
 from forumApp.posts.models import Post
 
 
@@ -7,6 +8,15 @@ class PostBaseForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = "__all__"
+        error_messages = {
+            'title': {
+                'required': 'Please enter a title for your post.',
+                'max_length': f'The title is too long! Please keep it under {Post.TITLE_MAX_LENGTH} characters.',
+            },
+            'author': {
+                'required': 'Please enter an author name for your post.',
+            }
+        }
 
 class PostCreateForm(PostBaseForm):
     pass
@@ -14,12 +24,8 @@ class PostCreateForm(PostBaseForm):
 class PostEditForm(PostBaseForm):
     pass
 
-class PostDeleteForm(PostBaseForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        for field in self.fields:
-            self.fields[field].disabled = True
+class PostDeleteForm(PostBaseForm, DisableFieldsMixin):
+    pass
 
 class SearchForm(forms.Form):
     query = forms.CharField(
