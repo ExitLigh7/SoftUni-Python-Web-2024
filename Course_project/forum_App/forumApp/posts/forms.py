@@ -1,5 +1,5 @@
 from django import forms
-
+from django.core.exceptions import ValidationError
 from forumApp.posts.mixins import DisableFieldsMixin
 from forumApp.posts.models import Post
 
@@ -18,6 +18,30 @@ class PostBaseForm(forms.ModelForm):
                 'required': 'Please enter an author name for your post.',
             }
         }
+
+    # This validation is just for example, it would be better to be in the model
+    def clean_author(self):
+        author = self.cleaned_data.get('author')
+
+        if not author[0].isupper():
+            raise ValidationError("Author name must be uppercase!")
+
+        return author
+
+    # This type of validation is usually used for applying business logic.
+    # This example is not fully suitable with the app, but it helps me understand how it works.
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        title = cleaned_data.get("title")
+        content = cleaned_data.get("content")
+
+        if title and content and title in content:
+            raise ValidationError("The post title cannot be included in the post content!")
+
+        return cleaned_data
+
 
 class PostCreateForm(PostBaseForm):
     pass
