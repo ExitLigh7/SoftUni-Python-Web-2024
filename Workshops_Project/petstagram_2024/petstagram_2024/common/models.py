@@ -1,9 +1,8 @@
 from django.db import models
-
 from petstagram_2024.photos.models import Photo
 
 
-class PhotoComment(models.Model):
+class Comment(models.Model):
     text = models.TextField(
         max_length=300,
     )
@@ -17,7 +16,7 @@ class PhotoComment(models.Model):
         on_delete=models.CASCADE,
     )
 
-class PhotoLike(models.Model):
+class Like(models.Model):
     to_photo = models.ForeignKey(
         Photo,
         on_delete=models.CASCADE
