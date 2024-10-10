@@ -9,7 +9,7 @@ def photo_add_page(request):
     if request.method == "POST":
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('home-page')
 
     context = {
         'form': form,
@@ -25,7 +25,7 @@ def photo_edit_page(request, pk: int):
     if request.method == "POST":
         if form.is_valid():
             form.save()
-            return redirect('photo-details', pk)
+            return redirect('photo-details-page', pk)
 
     context = {
         "form": form,
@@ -37,7 +37,7 @@ def photo_edit_page(request, pk: int):
 
 def photo_delete(request, pk: int):
     Photo.objects.get(pk=pk).delete()
-    return redirect('home')
+    return redirect('home-page')
 
 
 def photo_details_page(request, pk: int):

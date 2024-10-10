@@ -1,7 +1,4 @@
-from lib2to3.fixes.fix_input import context
-
 from django.shortcuts import render, redirect
-
 from petstagram_2024.common.forms import CommentForm
 from petstagram_2024.pets.forms import PetAddForm, PetEditForm, PetDeleteForm
 from petstagram_2024.pets.models import Pet
@@ -29,7 +26,7 @@ def pet_edit_page(request, username: str, pet_slug: str):
     if request.method == "POST":
         if form.is_valid():
             form.save()
-            return redirect('pet-details', username, pet_slug)
+            return redirect('pet-details-page', username, pet_slug)
 
     context = {
         "form": form,
