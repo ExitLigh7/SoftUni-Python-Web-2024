@@ -21,6 +21,7 @@ class DashboardView(ListView, FormView):
     template_name = "posts/dashboard.html"
     context_object_name = "posts"
     form_class = SearchForm
+    paginate_by = 3
     success_url = reverse_lazy("dashboard")
 
     def get_queryset(self):
