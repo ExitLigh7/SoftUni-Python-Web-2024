@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from petstagram_2024.common.forms import CommentForm
