@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load get_user %}
+{% block content %}
+
+    <!-- Display paragraph: If there are no recipes yet-->
+    {% get_user as profile %}
+    {% if profile and not has_recipes %}
+        <p class="no-articles">There are currently no recipes available.</p>
+    {% endif %}
+
+    <!-- Display a card with information about each recipe (if any)-->
+    <section id="catalogue">
+        {% for recipe in recipes_catalogue %}
+            <div class="recipe-card">
+                <div class="image-wrap">
+                    {% if recipe.image_url %}
+                        <img
+                                class="recipe-img"
+                                src="{{ recipe.image_url }}"
+                                alt="recipe image"
+                        />
+                    {% else %}
+                        <img
+                                class="recipe-img"
+                                src="{% static 'images/default_recipe_img.png' %}"
+                                alt="default recipe image"
+                        />
+                    {% endif %}
+                </div>
+                <!-- recipe title -->
+                <h3>{{ recipe.title }}</h3>
+                <!-- recipe cooking time -->
+                <h1>Cooking time: {{ recipe.cooking_time }}min.</h1>
+                <!-- recipe instructions -->
+                <h1>{{ recipe.instructions|truncatechars:35 }}</h1>
+                <div class="details-buttons">
+                    <!-- recipe details button -->
+                    <a href="{% url 'recipe_details' recipe.pk %}" class="details-btn">Details</a>
+                </div>
+            </div>
+        {% endfor %}
+
+    </section>
+
+{% endblock %}
