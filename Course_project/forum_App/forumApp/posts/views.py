@@ -1,10 +1,9 @@
-from lib2to3.fixes.fix_input import context
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import modelform_factory
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView, ListView, FormView, DetailView
-from forumApp.posts.forms import PostCreateForm, PostDeleteForm, SearchForm, PostEditForm, CommentFormSet
+from forumApp.posts.forms import PostDeleteForm, SearchForm, PostEditForm, CommentFormSet
 from forumApp.posts.models import Post
 
 class IndexView(TemplateView):
@@ -33,7 +32,7 @@ class DashboardView(ListView, FormView):
         return queryset
 
 
-class AddPostView(CreateView):
+class AddPostView(LoginRequiredMixin, CreateView):
     model = Post
     fields = "__all__"
     template_name = "posts/add_post.html"
