@@ -27,11 +27,20 @@ class Post(models.Model):
         auto_now_add=True
     )
 
+    approved = models.BooleanField(
+        default=False,
+    )
+
     languages = models.CharField(
         max_length=20,
         choices=LanguageChoice.choices,
         default=LanguageChoice.OTHER,
     )
+
+    class Meta:
+        permissions = [
+            ('can_approve_posts', 'Can approve posts'),
+        ]
 
 class Comment(models.Model):
     post = models.ForeignKey(
